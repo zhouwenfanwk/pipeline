@@ -21,11 +21,21 @@ package com.example.stage.processor.sample;
 
 import com.example.stage.lib.sample.Errors;
 
+import com.streamsets.pipeline.api.ErrorCode;
 import com.streamsets.pipeline.api.Record;
 import com.streamsets.pipeline.api.StageException;
 import com.streamsets.pipeline.api.base.SingleLaneRecordProcessor;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.csvreader.CsvReader;
 
 public abstract class SampleProcessor extends SingleLaneRecordProcessor {
 

@@ -1,0 +1,9 @@
+[
+  "com.example.stage.processor.sample.SampleDProcessor",
+  "com.example.stage.lib.sample.Errors",
+  "com.example.stage.destination.sample.Groups",
+  "com.example.stage.processor.sample.Groups",
+  "com.example.stage.destination.sample.SampleDTarget",
+  "com.example.stage.origin.sample.Groups",
+  "com.example.stage.origin.sample.SampleDSource"
+]

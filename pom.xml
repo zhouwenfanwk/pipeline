@@ -13,6 +13,17 @@
             <artifactId>streamsets-datacollector-mesos-bootstrap</artifactId>
             <version>3.20.0</version>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.javacsv</groupId>
+            <artifactId>javacsv</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.streamsets</groupId>
+            <artifactId>streamsets-datacollector-sdk</artifactId>
+            <version>3.20.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -21,66 +32,42 @@
     </properties>
 
     <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>2.2</version>
-            <configuration>
-                <archive>
-                    <manifestEntries>
-                        <Project-name>${project.name}</Project-name>
-                        <Project-version>${project.version}</Project-version>
-                        <!--                            <Premain-Class>com.coderead.agent.AgentMain</Premain-Class>-->
-                        <!--                            <Premain-Class>com.sys.insertPilepublic.AgentMain</Premain-Class>-->
-                        <!-- 需要打包的类的 -->
-                        <Premain-Class>com.sys.hadoop.mr</Premain-Class>
-                        <Can-Redefine-Classes>false</Can-Redefine-Classes>
-                        <Can-Retransform-Classes>false</Can-Retransform-Classes>
-                    </manifestEntries>
-                </archive>
-                <skip>true</skip>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.2</version>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-                <encoding>utf8</encoding>
-                <compilerArguments>
-                    <!-- 打包本地jar包 -->
-                    <extdirs>${project.basedir}/lib</extdirs>
-                </compilerArguments>
-            </configuration>
-        </plugin>
-    </plugins>
-
-    <resources>
-        <resource>
-            <directory>src/main/java</directory>
-            <includes>
-                <include>**/*.xml</include>
-            </includes>
-            <filtering>false</filtering>
-        </resource>
-        <resource>
-            <directory>src/test/java</directory>
-            <includes>
-                <include>**/*.xml</include>
-            </includes>
-            <filtering>false</filtering>
-        </resource>
-        <resource>
-            <directory>lib</directory>
-            <targetPath>/lib/</targetPath>
-            <includes>
-                <include>**/*.jar</include>
-            </includes>
-        </resource>
-    </resources>
+        <plugins>
+            <!-- compiler插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass></mainClass><!--修改自己的类路径-->
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
