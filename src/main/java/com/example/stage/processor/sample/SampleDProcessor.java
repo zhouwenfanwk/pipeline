@@ -39,7 +39,7 @@ public class SampleDProcessor extends SampleProcessor {
       required = true,
       type = ConfigDef.Type.STRING,
       defaultValue = "default",
-      label = "Sample Config",
+      label = "Config Path",
       displayPosition = 10,
       group = "SAMPLE"
   )
@@ -49,8 +49,8 @@ public class SampleDProcessor extends SampleProcessor {
           required = true,
           type = ConfigDef.Type.STRING,
           defaultValue = "default",
-          label = "Sample Config",
-          displayPosition = 10,
+          label = "sample1Csv",
+          displayPosition = 11,
           group = "SAMPLE"
   )
   public String sample1Csv;
@@ -61,9 +61,9 @@ public class SampleDProcessor extends SampleProcessor {
     return config;
   }
 
-//  @Override
-//  public String getSample1Csv() {
-//    return sample1Csv;
-//  }
+  @Override
+  public String getSample1Csv() {
+    return sample1Csv;
+  }
 
 }

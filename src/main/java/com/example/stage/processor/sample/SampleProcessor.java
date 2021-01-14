@@ -38,23 +38,31 @@ import org.slf4j.LoggerFactory;
 import com.csvreader.CsvReader;
 
 public abstract class SampleProcessor extends SingleLaneRecordProcessor {
+  private static final Logger LOG = LoggerFactory.getLogger(SampleProcessor.class);
+  private Record record;
+  private CsvReader csvR;
+  private String path;
+
 
   /**
    * Gives access to the UI configuration of the stage provided by the {@link SampleDProcessor} class.
    */
-  public abstract String getConfig();
+  public abstract String getConfig();//为何这样写
+  public abstract String getSample1Csv();
+//  public abstract Map<String, String> getMapAttribute();
 
   /** {@inheritDoc} */
   @Override
   protected List<ConfigIssue> init() {
     // Validate configuration values and open any required resources.
     List<ConfigIssue> issues = super.init();
+    path = getConfig();
 
     if (getConfig().equals("invalidValue")) {
       issues.add(
-          getContext().createConfigIssue(
-              Groups.SAMPLE.name(), "config", Errors.SAMPLE_00, "Here's what's wrong..."
-          )
+              getContext().createConfigIssue(
+                      Groups.SAMPLE.name(), "config", Errors.SAMPLE_00, "Here's what's wrong..."
+              )
       );
     }
 
@@ -73,9 +81,36 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
   @Override
   protected void process(Record record, SingleLaneBatchMaker batchMaker) throws StageException {
     // TODO: Implement your record processing here, then add to the output batch.
-
+    //LOG.info("Processing a record payment_type1: {}", record.get("/payment_type").getValueAsString());
     // This example is a no-op
-    batchMaker.addRecord(record);
+    String recordValue = record.get("").getValueAsString();
+    try {
+      csvR = new CsvReader(path, ',', Charset.forName("UTF-8"));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    String csvHeader = getSample1Csv();
+    try {
+      csvR.readHeaders();
+      while (csvR.readRecord()) {
+
+        // 读一整行
+        //String csvRecord = csvR.getRawRecord();
+        String csvValue = csvR.get(csvHeader);
+        if (recordValue.equals(csvValue)) {
+          batchMaker.addRecord(record);
+          break;
+        }
+        else {
+
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    csvR.close();
+//    batchMaker.addRecord(record);
   }
 
 }
