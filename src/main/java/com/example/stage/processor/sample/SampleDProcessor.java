@@ -69,7 +69,7 @@ public class SampleDProcessor extends SampleProcessor {
           displayPosition = 12,
           displayMode = ConfigDef.DisplayMode.BASIC,
           elDefs = {RecordEL.class, VaultEL.class},
-          group = "HTTP"
+          group = "SAMPLE"
   )
   public Map<String, String> configMap = new HashMap<>();
 
