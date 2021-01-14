@@ -19,10 +19,15 @@
  */
 package com.example.stage.processor.sample;
 
+import _ss_com.streamsets.pipeline.lib.el.RecordEL;
+import _ss_com.streamsets.pipeline.lib.el.VaultEL;
 import com.streamsets.pipeline.api.ConfigDef;
 import com.streamsets.pipeline.api.ConfigGroups;
 import com.streamsets.pipeline.api.GenerateResourceBundle;
 import com.streamsets.pipeline.api.StageDef;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @StageDef(
     version = 1,
@@ -55,6 +60,19 @@ public class SampleDProcessor extends SampleProcessor {
   )
   public String sample1Csv;
 
+  @ConfigDef(
+          required = false,
+          type = ConfigDef.Type.MAP,
+          label = "Config Map",
+          description = "Headers to include in the request",
+          evaluation = ConfigDef.Evaluation.EXPLICIT,
+          displayPosition = 12,
+          displayMode = ConfigDef.DisplayMode.BASIC,
+          elDefs = {RecordEL.class, VaultEL.class},
+          group = "HTTP"
+  )
+  public Map<String, String> configMap = new HashMap<>();
+
   /** {@inheritDoc} */
   @Override
   public String getConfig() {
@@ -64,6 +82,11 @@ public class SampleDProcessor extends SampleProcessor {
   @Override
   public String getSample1Csv() {
     return sample1Csv;
+  }
+
+  @Override
+  public Map<String, String> getConfigMap() {
+    return configMap;
   }
 
 }

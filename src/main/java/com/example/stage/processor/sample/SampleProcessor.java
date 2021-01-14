@@ -49,7 +49,7 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
    */
   public abstract String getConfig();//为何这样写
   public abstract String getSample1Csv();
-//  public abstract Map<String, String> getMapAttribute();
+  public abstract Map<String, String> getConfigMap();
 
   /** {@inheritDoc} */
   @Override
@@ -89,7 +89,6 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-
     String csvHeader = getSample1Csv();
     try {
       csvR.readHeaders();
@@ -103,7 +102,6 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
           break;
         }
         else {
-
         }
       }
     } catch (IOException e) {
