@@ -64,11 +64,11 @@ public class SampleDProcessor extends SampleProcessor {
           required = false,
           type = ConfigDef.Type.MAP,
           label = "Config Map",
-          description = "Headers to include in the request",
+          description = "Config Map",
           evaluation = ConfigDef.Evaluation.EXPLICIT,
           displayPosition = 12,
           displayMode = ConfigDef.DisplayMode.BASIC,
-          elDefs = {RecordEL.class, VaultEL.class},
+          elDefs = {VaultEL.class, VaultEL.class},
           group = "SAMPLE"
   )
   public Map<String, String> configMap = new HashMap<>();
@@ -88,5 +88,4 @@ public class SampleDProcessor extends SampleProcessor {
   public Map<String, String> getConfigMap() {
     return configMap;
   }
-
 }

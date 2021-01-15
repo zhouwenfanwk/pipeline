@@ -81,9 +81,10 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
   @Override
   protected void process(Record record, SingleLaneBatchMaker batchMaker) throws StageException {
     // TODO: Implement your record processing here, then add to the output batch.
-    //LOG.info("Processing a record payment_type1: {}", record.get("/payment_type").getValueAsString());
+//    LOG.info("Processing a record payment_type1: {}", record.get("/payment_type").getValueAsString());
+    LOG.info("Processing a record map: {}", getConfigMap());
     // This example is a no-op
-    String recordValue = record.get("").getValueAsString();
+    String recordValue = record.get("/passenger_count").getValueAsString();
     try {
       csvR = new CsvReader(path, ',', Charset.forName("UTF-8"));
     } catch (FileNotFoundException e) {
@@ -96,7 +97,7 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
 
         // 读一整行
         //String csvRecord = csvR.getRawRecord();
-        String csvValue = csvR.get(csvHeader);
+        String csvValue = csvR.get("aa");
         if (recordValue.equals(csvValue)) {
           batchMaker.addRecord(record);
           break;
