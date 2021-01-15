@@ -83,35 +83,32 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
 //    LOG.info("Processing a record payment_type1: {}", record.get("/payment_type").getValueAsString());
 
     // This example is a no-op
-    String recordValue = record.get("/passenger_count").getValueAsString();
-    try {
-      csvR = new CsvReader(path, ',', Charset.forName("UTF-8"));
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-
     for (Map.Entry<String, String> entry : getConfigMap().entrySet()) {
-      System.out.println(entry.getKey() + ":" + entry.getValue());
-    }
-
-    try {
-      csvR.readHeaders();
-      while (csvR.readRecord()) {
-
-        // 读一整行
-        //String csvRecord = csvR.getRawRecord();
-        String csvValue = csvR.get("aa");
-        if (recordValue.equals(csvValue)) {
-          batchMaker.addRecord(record);
-          break;
-        }
-        else {
-        }
+      String recordValue = record.get(entry.getKey()).getValueAsString();
+      try {
+        csvR = new CsvReader(path, ',', Charset.forName("UTF-8"));
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+//      System.out.println(entry.getKey() + ":" + entry.getValue());
+      try {
+        csvR.readHeaders();
+        while (csvR.readRecord()) {
+          // 读一整行
+          //String csvRecord = csvR.getRawRecord();
+          String csvValue = csvR.get(entry.getValue());
+          if (recordValue.equals(csvValue)) {
+            batchMaker.addRecord(record);
+            break;
+          } else {
+          }
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
+      csvR.close();
     }
-    csvR.close();
 //    batchMaker.addRecord(record);
   }
 
