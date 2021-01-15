@@ -48,7 +48,6 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
    * Gives access to the UI configuration of the stage provided by the {@link SampleDProcessor} class.
    */
   public abstract String getConfig();//为何这样写
-  public abstract String getSample1Csv();
   public abstract Map<String, String> getConfigMap();
 
   /** {@inheritDoc} */
@@ -82,7 +81,7 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
   protected void process(Record record, SingleLaneBatchMaker batchMaker) throws StageException {
     // TODO: Implement your record processing here, then add to the output batch.
 //    LOG.info("Processing a record payment_type1: {}", record.get("/payment_type").getValueAsString());
-    LOG.info("Processing a record map: {}", getConfigMap());
+
     // This example is a no-op
     String recordValue = record.get("/passenger_count").getValueAsString();
     try {
@@ -90,7 +89,11 @@ public abstract class SampleProcessor extends SingleLaneRecordProcessor {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    String csvHeader = getSample1Csv();
+
+    for (Map.Entry<String, String> entry : getConfigMap().entrySet()) {
+      System.out.println(entry.getKey() + ":" + entry.getValue());
+    }
+
     try {
       csvR.readHeaders();
       while (csvR.readRecord()) {

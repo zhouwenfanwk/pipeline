@@ -51,22 +51,12 @@ public class SampleDProcessor extends SampleProcessor {
   public String config;
 
   @ConfigDef(
-          required = true,
-          type = ConfigDef.Type.STRING,
-          defaultValue = "default",
-          label = "sample1Csv",
-          displayPosition = 11,
-          group = "SAMPLE"
-  )
-  public String sample1Csv;
-
-  @ConfigDef(
           required = false,
           type = ConfigDef.Type.MAP,
           label = "Config Map",
           description = "Config Map",
           evaluation = ConfigDef.Evaluation.EXPLICIT,
-          displayPosition = 12,
+          displayPosition = 11,
           displayMode = ConfigDef.DisplayMode.BASIC,
           elDefs = {VaultEL.class, VaultEL.class},
           group = "SAMPLE"
@@ -77,11 +67,6 @@ public class SampleDProcessor extends SampleProcessor {
   @Override
   public String getConfig() {
     return config;
-  }
-
-  @Override
-  public String getSample1Csv() {
-    return sample1Csv;
   }
 
   @Override
